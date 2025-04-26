@@ -25,6 +25,18 @@ struct OilChange{
     int oilAmount;
 };
 
+struct TimeFrameInput{
+    string dateInput;
+    string timeInput;
+};
+
+struct InputType{
+    OilChange oilChangeInput;
+    TimeFrameInput timeFrameInput;
+    int inputType;
+};
+
 Date filterDate(string dateInput);
 Time filterTime(string timeInput);
 void printOilInfo(OilChange oilChange);
+InputType takeInput(Date date, int infoType);

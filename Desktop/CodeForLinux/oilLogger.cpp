@@ -6,30 +6,13 @@ int main(){
     cout << "#-------------------------------------------#\n";
     cout << "|      DOCUMENT OIL CHANGE NOTES BELOW      |\n";
     cout << "#-------------------------------------------#\n";
-
-    cout << "\nTIME RELATED NOTES:\n";
-    cout << "-------------------\n";
-    string dateInput, timeInput;
-    cout << "Date [00/00/0000]: ";
-    getline(cin, dateInput);
-    cout << "Time [00:00:00 AM] ";
-    getline(cin, timeInput);
-
-    Date date = filterDate(dateInput);
-    date.time = filterTime(timeInput);
-
-    cout << "\nOIL RELATED NOTES:\n";
-    cout << "------------------\n";
-    OilChange oilChange;
-    oilChange.changeDates = date;
-    cout << "Brand of Oil: ";
-    cin >> oilChange.brand;
-    cout << "Oil Viscosity [0W-00]: ";
-    cin >> oilChange.viscosity;
-    cout << "Amount of Oil (quarts): ";
-    cin >> oilChange.oilAmount;
-
-    printOilInfo(oilChange);
+    InputType input;
+    Date date;
+    input.timeFrameInput = takeInput(date, 0).timeFrameInput;
+    date = filterDate(input.timeFrameInput.dateInput);
+    date.time = filterTime(input.timeFrameInput.timeInput);
+    input.oilChangeInput = takeInput(date, 1).oilChangeInput;
+    cout << "\n##  OIL NOTES SAVED. RETURNING TO MENU  ##";
 }
 
 Date filterDate(string dateInput){
@@ -95,4 +78,34 @@ void printOilInfo(OilChange oilChange){
     cout << "Minute: " << oilChange.changeDates.time.minute << "\n";
     cout << "Second: " << oilChange.changeDates.time.second << "\n";
     cout << "AM/PM: " << oilChange.changeDates.time.tod << "\n";
+}
+
+InputType takeInput(Date date, int infoType){
+    InputType input;
+    if(infoType == 0){
+        input.inputType = 0;
+        TimeFrameInput timeframe;
+        cout << "\nTIME RELATED NOTES:\n";
+        cout << "-------------------\n";
+        cout << "Date [00/00/0000]: ";
+        getline(cin, timeframe.dateInput);
+        cout << "Time [00:00:00 AM] ";
+        getline(cin, timeframe.timeInput);
+        input.timeFrameInput = timeframe;
+    }
+    else if(infoType == 1){
+        input.inputType = 1;
+        cout << "\nOIL RELATED NOTES:\n";
+        cout << "------------------\n";
+        OilChange oilChange;
+        oilChange.changeDates = date;
+        cout << "Brand of Oil: ";
+        cin >> oilChange.brand;
+        cout << "Oil Viscosity [0W-00]: ";
+        cin >> oilChange.viscosity;
+        cout << "Amount of Oil (quarts): ";
+        cin >> oilChange.oilAmount;
+        input.oilChangeInput = oilChange;
+    }
+    return input;
 }
